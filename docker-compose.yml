@@ -1,0 +1,31 @@
+version: '3.1'
+
+services:
+  # flyway:
+  #   image: flyway/flyway
+  #   volumes:
+  #     - "./sql:/flyway/sql"
+
+  default:
+    build: ./
+    command: ./wait-for-postgres.sh db ./default
+    ports:
+      - "1328:1328"
+    environment:      
+        DB_PASSWORD : "1234"
+    depends_on:
+      - database
+
+  database:
+    restart: always
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: cats
+    ports:
+    - "5432:5432"
+    
+  redis:
+    image: redis
+    # command: ["sh", "-c", "exec redis-server --requerepass \"${REDIS_PASSWORD}\""]
