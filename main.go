@@ -4,7 +4,6 @@ import (
 	"context"
 
 	//"github.com/hyperstone1/TestCRUD/internal/cache"
-	"github.com/swaggo/echo-swagger"
 	_ "github.com/hyperstone1/TestCRUD/docs"
 	"github.com/hyperstone1/TestCRUD/internal/handler"
 	"github.com/hyperstone1/TestCRUD/internal/repository"
@@ -13,11 +12,12 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 // @title CRUD API
 // @version 1.0
-// @description API Server for CRUD 
+// @description API Server for CRUD
 
 // @host localhost:1328
 // @BasePath /
@@ -25,7 +25,6 @@ import (
 // @secutiryDefinitions.apiKey ApiKeyAuth
 // @in header
 // @name Authorization
-
 
 func main() {
 
@@ -42,14 +41,6 @@ func run() error {
 	repository, err := repository.New(ctx)
 	if err != nil {
 		return errors.Wrap(err, "Repository.New failed")
-	}
-
-	if err != nil {
-		logrus.Fatal("Can't connect to DB")
-	}
-
-	if err != nil {
-		return errors.Wrap(err, "main.Run error")
 	}
 
 	CatService, err := service.New(repository)
