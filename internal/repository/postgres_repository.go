@@ -46,7 +46,6 @@ func (c *catPostgres) Get() (model.Cats, error) {
 }
 
 func (c *catPostgres) Update(cat model.Cat, id string) error {
-
 	_, err := c.conn.Exec(context.Background(), `UPDATE cats SET name = $1, age = $2 WHERE id = $3`, cat.Name, cat.Age, cat.Id)
 
 	if err != nil {
@@ -57,10 +56,7 @@ func (c *catPostgres) Update(cat model.Cat, id string) error {
 }
 
 func (c *catPostgres) Delete(id string) error {
-
-	var err error
-	_, err = c.conn.Exec(context.Background(), `DELETE FROM cats WHERE id=$1`, id)
-
+	_, err := c.conn.Exec(context.Background(), `DELETE FROM cats WHERE id=$1`, id)
 	if err != nil {
 		return err
 	}
@@ -68,9 +64,8 @@ func (c *catPostgres) Delete(id string) error {
 }
 
 func (c *catPostgres) GetById(id string) (*model.Cat, error) {
-	var err error
 	cat := model.Cat{}
-	err = c.conn.QueryRow(context.Background(), `SELECT * FROM cats WHERE id=$1`, id).Scan(&cat.Id, &cat.Name, &cat.Age)
+	err := c.conn.QueryRow(context.Background(), `SELECT * FROM cats WHERE id=$1`, id).Scan(&cat.Id, &cat.Name, &cat.Age)
 	if err != nil {
 		return nil, errors.Wrap(err, "rep.GetUserById error")
 	}
